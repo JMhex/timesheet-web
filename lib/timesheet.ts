@@ -1,4 +1,7 @@
+//
+
 export type Entry = {
+    id?: number
     date : string
     task : string
     hours : number
@@ -40,20 +43,14 @@ return totals
 
 }
 
-export function CheckHours(hours: number): string | null {
+export function checkHours(hours: number): string | null {
     
-    if (hours <= 0)
+if (hours <= 0)
     return "Hours must be more than 0"
-
-if 
-    (hours > 24 ) {
-        return "Hours cannot be more than 24."
-    }
-    
-if
-    (Number.isNaN(hours)) {
-    return "Please enter a valid number" 
-    }
+if (hours <= 0)
+    return "Hours must be more than 0"
+if (hours > 24)
+    return " Nobody works more than 24 hours in a day."
 
     return null
 }
