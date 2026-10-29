@@ -1,10 +1,13 @@
 //
 
+export type FormState = {error: string | null }
+
 export type Entry = {
     id?: number
     date : string
     task : string
     hours : number
+    notes? : string | null
 }
 
 export const entries: Entry[] = [
