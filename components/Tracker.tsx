@@ -10,9 +10,15 @@ import { checkHours, totalHours, type Entry } from "@/lib/timesheet"
 // export lets page.tsx import Tracker and show it on the page.”
 export function Tracker() {
     const [entries, setEntries] = useState<Entry[]>([])
-    const [task, setTask] = useState("")
+    const [task, setTask] = useState("") 
     const [hours, setHours] = useState("")
     const [error, setError] = useState<string | null>(null)
+    
+    function deleteEntry(index: number){
+        setEntries(entries.filter((entry, i) => i !== index))
+
+
+    }
     
     function addEntry(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -57,7 +63,7 @@ export function Tracker() {
                 {error && <p className="w-full text-red-600">{error}</p>}
             </form>
 
-            <EntryList entries={entries} />
+            <EntryList entries={entries} onDelete={deleteEntry}/>
             <p className="font-bold">Total: {totalHours(entries)} h</p>
         </div>
     )
