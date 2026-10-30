@@ -1,6 +1,6 @@
 import { Suspense } from "react"
 import { EntryList } from "@/components/EntryList"
-import { AddEntryForm } from "@/components/AddEntryform"
+import { AddEntryForm } from "@/components/AddEntryForm"
 import { createClient } from "@/lib/supabase/server"
 import { totalHours, type Entry } from "@/lib/timesheet"
 
