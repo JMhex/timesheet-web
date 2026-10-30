@@ -48,8 +48,8 @@ return totals
 
 export function checkHours(hours: number): string | null {
     
-if (hours <= 0)
-    return "Hours must be more than 0"
+if (Number.isNaN(hours))
+    return "Please enter a valid number."
 if (hours <= 0)
     return "Hours must be more than 0"
 if (hours > 24)
