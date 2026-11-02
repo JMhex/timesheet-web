@@ -10,6 +10,7 @@ async function Entries() {
     .from("entries")
     .select("id, date, task, hours, notes")
     .order("date", { ascending: false })
+    .order("id", { ascending: false })
 
   if (error) {
     return <p>Could not load entries: {error.message}</p>
