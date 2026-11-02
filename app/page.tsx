@@ -3,6 +3,25 @@ import { EntryList } from "@/components/EntryList"
 import { AddEntryForm } from "@/components/AddEntryForm"
 import { createClient } from "@/lib/supabase/server"
 import { totalHours, type Entry } from "@/lib/timesheet"
+import { redirect } from "next/navigation"
+import { logout } from "@/app/login/actions"
+
+async function UserBar () {
+  const supabase = await createClient()
+  const {
+    data: { user }, 
+  } = await supabase.auth.getUser()
+  if (!user) {
+    redirect("/login")
+  }
+
+
+return (
+  <form action ={logout} className="text-sm">
+    {user.email} . <button className="underline">Sign out</button>
+  </form>
+)
+}
 
 async function Entries() {
   const supabase = await createClient()
@@ -28,9 +47,14 @@ async function Entries() {
 export default function Home() {
   return (
     <main className="mx-auto grid max-w-xl gap-6 p-8">
+      <header className="flex items-center justify-between">
       <h1 className="text-2xl font-bold">TimeSheet for JM</h1>
-      <AddEntryForm/>
-      <Suspense fallback={<p>Loading entries…</p>}>
+      <Suspense fallback={null}>
+        <UserBar />
+      </Suspense>
+      </header>
+      <AddEntryForm />
+      <Suspense fallback={<p>Loading entries...</p>}>
         <Entries />
       </Suspense>
     </main>
