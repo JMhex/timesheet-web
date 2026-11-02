@@ -10,10 +10,10 @@ export function EntryList ({ entries, onDelete }: {entries: Entry[], onDelete?: 
 return (
     <ul className="divide-y rounded border">
         {entries.map((entry, index) => (
-            <li key={index} className="flex justify-between p-3">
+            <li key={entry.id ?? index} className="grid grid-cols-[1fr_2fr_auto] items-center gap-4 p-3">
                 <span>{entry.task}</span>
-                <span>{entry.hours} h </span>
-                {entry.notes && <span className="text-gray-500">{entry.notes}</span>}
+                <span className="text-center text-gray-500">{entry.notes}</span>
+                <span className="text-right">{entry.hours} h</span>
                 {onDelete && <button onClick={() => onDelete(index)}>Delete</button>}
             </li>
         ))}
