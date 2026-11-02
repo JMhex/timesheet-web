@@ -16,20 +16,22 @@ it("is zero for no entries", () => {
 })
 
 describe("hoursByTask", () => {
-    it("adds the same task together", () => {
+    it("adds same entries together", () => {
         const entries = [
             {date: "2026-10-26", task: "SQL", hours: 2},
             {date: "2026-10-27", task: "SQL", hours: 1.5},
         ]
      expect(hoursByTask(entries)).toEqual({ SQL : 3.5})    
     })
-    
-    it("adds the same task together", () => {
+
+    it("handles multiple tasks", () => {
         const entries = [
             {date: "2026-10-26", task: "SQL", hours: 2},
             {date: "2026-10-27", task: "SQL", hours: 1.5},
+            {date: "2026-10-27", task: "Work", hours: 1},
+            {date: "2026-10-27", task: "Testing", hours: 0.5},
         ]
-    expect(hoursByTask(entries)).toEqual({ SQL : 3.5})
+    expect(hoursByTask(entries)).toEqual({ Work : 1, Testing : 0.5, SQL : 3.5})
     })
 })
 
@@ -42,4 +44,10 @@ describe("checkHours", () => {
     it("accepts a normal day", () => {
         expect(checkHours(7.5)).toBeNull()
     })
+
+it("refuses NaN and infinity", () => {
+    expect(checkHours(NaN)).not.toBeNull()
+    expect(checkHours(Infinity)).not.toBeNull()
+    expect(checkHours(-Infinity)).not.toBeNull()
+})
 })
