@@ -12,15 +12,15 @@ export function AddEntryForm() {
     <form action={formAction} className="flex flex-wrap items-end gap-2">
         <label className="grid flex-1 text-sm">
             Task
-            <input name="task" required className="rounded border px-2 py-1" />
+            <input name="task" defaultValue={state.values?.task} required className="rounded border px-2 py-1" />
         </label>
         <label className="grid flex-1 text-sm">
             Notes
-            <input name = "notes" className="rounded border px-2 py-1"/>
+            <input name="notes" defaultValue={state.values?.notes} className="rounded border px-2 py-1" />
         </label>
         <label className="grid text-sm">
             Hours
-            <input name="hours" type="number" step="0.25" min="0.25" max="24" required className="w-24 rounded border px-2 py-1" />
+           <input name="hours" defaultValue={state.values?.hours} type="number" step="0.25" min="0.25" max="24" required className="w-24 rounded border px-2 py-1" />
         </label>
         <button disabled={pending} className="rounded bg-green-600 px-3 py-1 text-black disabled:opacity-50">
             {pending ? "saving..." : "Add"}

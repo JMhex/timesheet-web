@@ -9,6 +9,12 @@ export async function addEntry(_previous: FormState, formData: FormData): Promis
     const hours = Number(formData.get("hours"))
     const notes = String(formData.get("notes") ?? "").trim() || null
 
+    const values ={
+        task,
+        hours: String(formData.get("hours") ?? ""),
+        notes: notes ?? "",
+    }
+
     const problem = task === "" ? "Task can't be empty." : checkHours(hours)
     if (problem){
         return { error: problem}
@@ -17,8 +23,11 @@ export async function addEntry(_previous: FormState, formData: FormData): Promis
     const supabase = await createClient()
     const { error } = await supabase.from("entries").insert({ task, hours, notes })
     if (error){
-        return { error: "Couldnt save that entry. Try again"}
+        console.error("addEntry: insert failed", error)
+        return { error: "Couldn't save that entry. Try again"}
     }
+
+
     revalidatePath("/")
     return { error: null }
 }
