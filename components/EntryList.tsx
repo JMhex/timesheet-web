@@ -3,14 +3,14 @@
 import { deleteEntry } from "@/app/actions"
 import type { Entry } from "@/lib/timesheet"
 
-export function EntryList ({ entries, onDelete }: {entries: Entry[], onDelete?: (index: number) => void }) {
+export function EntryList ({ entries}: {entries: Entry[], onDelete?: (index: number) => void }) {
     if (entries.length === 0) {
         return <p className="text-gray-500">No entries yet.</p>
     }
 
 return (
     <ul className="divide-y rounded border">
-        {entries.map((entry, index) => (
+        {entries.map((entry) => (
 
             <li key={entry.id} className="grid grid-cols-[1fr_2fr_auto] items-center gap-4 p-3">
                <span>{entry.task}</span>
