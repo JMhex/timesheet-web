@@ -21,6 +21,14 @@ describe("hoursByTask", () => {
             {date: "2026-10-26", task: "SQL", hours: 2},
             {date: "2026-10-27", task: "SQL", hours: 1.5},
         ]
+     expect(hoursByTask(entries)).toEqual({ SQL : 3.5})    
+    })
+    
+    it("adds the same task together", () => {
+        const entries = [
+            {date: "2026-10-26", task: "SQL", hours: 2},
+            {date: "2026-10-27", task: "SQL", hours: 1.5},
+        ]
     expect(hoursByTask(entries)).toEqual({ SQL : 3.5})
     })
 })
