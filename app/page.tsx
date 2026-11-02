@@ -25,6 +25,13 @@ return (
 
 async function Entries() {
   const supabase = await createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) {
+    redirect("/login")
+  }
+
   const { data, error } = await supabase
     .from("entries")
     .select("id, date, task, hours, notes")
@@ -47,12 +54,14 @@ async function Entries() {
 export default function Home() {
   return (
     <main className="mx-auto grid max-w-xl gap-6 p-8">
+
       <header className="flex items-center justify-between">
-      <h1 className="text-2xl font-bold">TimeSheet for JM</h1>
+        <h1 className="text-2xl font-bold">TimeSheet for JM</h1>
       <Suspense fallback={null}>
         <UserBar />
       </Suspense>
-      </header>
+    </header>
+
       <AddEntryForm />
       <Suspense fallback={<p>Loading entries...</p>}>
         <Entries />
