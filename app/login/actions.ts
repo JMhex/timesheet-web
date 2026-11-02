@@ -12,6 +12,12 @@ function readForm(formData: FormData,) {
 }
 }
 
+export async function logout() {
+    const supabase = await createClient()
+    await supabase.auth.signOut()
+    redirect("/login")
+}
+
 export async function login(formData: FormData) {
     const supabase = await createClient()
     const { error } = await supabase.auth.signInWithPassword(readForm(formData))
@@ -25,15 +31,11 @@ export async function signup(formData: FormData){
     const supabase = await createClient()
     const {data, error} = await supabase.auth.signUp(readForm(formData))
     if (error) {
-        redirect("/login?error=" + encodeURIComponent(error.message))
+        console.error("signup failed", error)
+        redirect("/login?message=" + encodeURIComponent("If that email can be used, you’ll be able to sign in shortly. Check your inbox to continue"))
     }
     if (data.session) {
         redirect("/")
     }
-    redirect("/login?error=" + encodeURIComponent("check your email for a confirmation link, then sign in"))
-}
-
-export async function logout() {
-    const supabase =await createClient()
-    await supabase.auth.signOut()
+    redirect("/login?message=" + encodeURIComponent("If that email can be used, you’ll be able to sign in shortly. Check your inbox to continue"))
 }
