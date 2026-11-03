@@ -1,10 +1,15 @@
 //
 
+export type FormState = {error: string | null
+    values?: { task: string; hours: string; notes: string }
+ }
+
 export type Entry = {
     id?: number
     date : string
     task : string
     hours : number
+    notes? : string | null
 }
 
 export const entries: Entry[] = [
@@ -45,12 +50,12 @@ return totals
 
 export function checkHours(hours: number): string | null {
     
-if (hours <= 0)
-    return "Hours must be more than 0"
+if (!Number.isFinite(hours)) 
+    return "Please enter a valid number."
 if (hours <= 0)
     return "Hours must be more than 0"
 if (hours > 24)
-    return " Nobody works more than 24 hours in a day."
+    return "Nobody works more than 24 hours in a day."
 
     return null
 }
