@@ -50,4 +50,9 @@ it("refuses NaN and infinity", () => {
     expect(checkHours(Infinity)).not.toBeNull()
     expect(checkHours(-Infinity)).not.toBeNull()
 })
+it("only allows quarter hours", () => {
+    expect(checkHours(1.25)).toBeNull()
+    expect(checkHours(1.3)).not.toBeNull()
+
+})
 })

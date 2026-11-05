@@ -5,8 +5,10 @@ import { createClient } from "@/lib/supabase/server"
 import { totalHours, type Entry } from "@/lib/timesheet"
 import { redirect } from "next/navigation"
 import { logout } from "@/app/login/actions"
+import { connection } from "next/server"
 
 async function UserBar () {
+  await connection
   const supabase = await createClient()
   const {
     data: { user }, 
@@ -24,6 +26,7 @@ return (
 }
 
 async function Entries() {
+  await connection()
   const supabase = await createClient()
   const {
     data: { user },
@@ -35,6 +38,7 @@ async function Entries() {
   const { data, error } = await supabase
     .from("entries")
     .select("id, date, task, hours, notes")
+    .eq("user_id", user.id)
     .order("date", { ascending: false })
     .order("id", { ascending: false })
 
@@ -54,17 +58,15 @@ async function Entries() {
 export default function Home() {
   return (
     <main className="mx-auto grid max-w-xl gap-6 p-8">
-
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">TimeSheet for JM</h1>
       <Suspense fallback={null}>
-        <UserBar />
+        <UserBar/>
       </Suspense>
     </header>
-
-      <AddEntryForm />
+    <AddEntryForm/>
       <Suspense fallback={<p>Loading entries...</p>}>
-        <Entries />
+      <Entries /> 
       </Suspense>
     </main>
   )
