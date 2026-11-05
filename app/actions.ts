@@ -15,6 +15,8 @@ export async function addEntry(_previous: FormState, formData: FormData): Promis
     const task = String(formData.get("task") ?? "").trim()
     const hours = Number(formData.get("hours"))
     const notes = String(formData.get("notes") ?? "").trim() || null
+    const date = String(formData.get("date") ?? "")
+  
 
     const values ={
         task,
@@ -32,6 +34,7 @@ export async function addEntry(_previous: FormState, formData: FormData): Promis
     if (error) {
         console.error("addEntry: insert failed", error)
         return { error: "Couldn't save that entry. Try again", values }
+        
     }
 
 

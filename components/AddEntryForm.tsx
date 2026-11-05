@@ -1,9 +1,11 @@
-//AddEntryForm.tsx
+// components/AddEntryForm.tsx : inside the component, before return
 
 "use client"
 
 import { useActionState } from "react"
 import { addEntry } from "@/app/actions"
+
+const today = new Date().toLocaleDateString("en-CA")
 
 export function AddEntryForm() {
     const [state, formAction, pending] = useActionState(addEntry, { error: null })
@@ -14,6 +16,10 @@ export function AddEntryForm() {
             Task
             <input name="task" defaultValue={state.values?.task} required className="rounded border px-2 py-1" />
         </label>
+        <label className="grid text-sm">
+            Date
+            <input name = "date" type="date" defaultValue={today} required className ="rounded border px-2 py-1" />
+            </label>
         <label className="grid flex-1 text-sm">
             Notes
             <input name="notes" defaultValue={state.values?.notes} className="rounded border px-2 py-1" />
@@ -22,6 +28,7 @@ export function AddEntryForm() {
             Hours
            <input name="hours" defaultValue={state.values?.hours} type="number" step="0.25" min="0.25" max="24" required className="w-24 rounded border px-2 py-1" />
         </label>
+        
         <button disabled={pending} className="rounded bg-green-600 px-3 py-1 text-black disabled:opacity-50">
             {pending ? "saving..." : "Add"}
         </button>
