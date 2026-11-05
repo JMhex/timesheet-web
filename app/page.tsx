@@ -53,16 +53,34 @@ async function Entries() {
   )
 }
 
-export default function Home() {
+async function Notice({
+  searchParams,
+}: {
+  searchParams: Promise<{ notice?: string}>
+}) {
+  const { notice } = await searchParams
+  return notice ? <p className="rounded bg-yellow-100 p-2 text-black">{notice}</p> : null
+}
+
+export default function Home({
+  searchParams,
+}: {
+  searchParams: Promise <{ notice?: string }>
+}) {
   return (
     <main className="mx-auto grid max-w-xl gap-6 p-8">
 
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">TimeSheet for JM</h1>
+      
       <Suspense fallback={null}>
         <UserBar />
       </Suspense>
     </header>
+
+   <Suspense fallback={null}>
+        <Notice searchParams={searchParams} />
+      </Suspense>
 
       <AddEntryForm />
       <Suspense fallback={<p>Loading entries...</p>}>
