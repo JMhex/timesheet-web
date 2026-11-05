@@ -25,6 +25,10 @@ export default function LoginPage({
     <main className="mx-auto grid max-w-sm gap-4 p-8">
       <h1 className="text-2xl font-bold">Timesheet</h1>
       <form className="grid gap-3">
+        <label className= "grid text-sm">
+      Name and Surname
+      <input name = "full_name" type="full_name" className="rounded border px-2 py-1"/>
+        </label>
         <label className="grid text-sm">
           Email
           <input name="email" type="email" required className="rounded border px-2 py-1" />

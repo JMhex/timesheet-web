@@ -10,17 +10,16 @@ import { connection } from "next/server"
 async function UserBar () {
   await connection()
   const supabase = await createClient()
-  const {
-    data: { user }, 
-  } = await supabase.auth.getUser()
+  const {data: { user }, } = await supabase.auth.getUser()
   if (!user) {
-    redirect("/login")
+    redirect("/login")   
   }
+  const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", user.id).single()
 
 
 return (
   <form action ={logout} className="text-sm">
-    {user.email} . <button className="underline">Sign out</button>
+    {profile?.full_name || user.email} . <button className="underline">Sign out</button>
   </form>
 )
 }
