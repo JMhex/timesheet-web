@@ -5,8 +5,10 @@ import { createClient } from "@/lib/supabase/server"
 import { totalHours, type Entry } from "@/lib/timesheet"
 import { redirect } from "next/navigation"
 import { logout } from "@/app/login/actions"
+import { connection } from "next/server"
 
 async function UserBar () {
+  await connection()
   const supabase = await createClient()
   const {
     data: { user }, 
@@ -24,6 +26,7 @@ return (
 }
 
 async function Entries() {
+  await connection()
   const supabase = await createClient()
   const {
     data: { user },

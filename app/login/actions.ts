@@ -33,9 +33,12 @@ export async function signup(formData: FormData){
     if (error) {
         console.error("signup failed", error)
         redirect("/login?message=" + encodeURIComponent("If that email can be used, you’ll be able to sign in shortly. Check your inbox to continue"))
+
     }
     if (data.session) {
         redirect("/")
+
+
     }
     redirect("/login?message=" + encodeURIComponent("If that email can be used, you’ll be able to sign in shortly. Check your inbox to continue"))
 }
