@@ -52,10 +52,9 @@ export function checkHours(hours: number): string | null {
     
 if (!Number.isFinite(hours)) 
     return "Please enter a valid number."
-if (hours <= 0)
-    return "Hours must be more than 0"
-if (hours > 24)
-    return "Nobody works more than 24 hours in a day."
-
+if (hours < 0.25 || hours > 24 )
+    return "Hours must be between 0.25 and 24."
+if (!Number.isInteger(hours * 4 ))
+    return "Use quarter hours, like 1.25 or 1.5."
     return null
 }
