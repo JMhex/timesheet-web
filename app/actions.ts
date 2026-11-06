@@ -3,19 +3,25 @@
 import { revalidatePath } from "next/cache"
 import { createClient } from "@/lib/supabase/server"
 import { checkHours, type FormState } from "@/lib/timesheet"
+import { redirect } from "next/navigation"
 
 export async function deleteEntry(formData: FormData){
     const id = Number(formData.get("id"))
     const supabase = await createClient()
-    await supabase.from("entries").delete().eq("id", id)
+    const { data } = await supabase.from("entries").delete().eq("id", id).select("id")
+    
     revalidatePath("/")
+    if (!data || data.length === 0) {
+        redirect("/?notice=" + encodeURIComponent("That entry was already gone, or isnt yours."))
+    }
 }
 
 export async function addEntry(_previous: FormState, formData: FormData): Promise<FormState> {
     const task = String(formData.get("task") ?? "").trim()
     const hours = Number(formData.get("hours"))
     const notes = String(formData.get("notes") ?? "").trim() || null
-
+    const date = String(formData.get("date") ?? "")
+  
     const values ={
         task,
         hours: String(formData.get("hours") ?? ""),
@@ -32,8 +38,8 @@ export async function addEntry(_previous: FormState, formData: FormData): Promis
     if (error) {
         console.error("addEntry: insert failed", error)
         return { error: "Couldn't save that entry. Try again", values }
+        
     }
-
 
     revalidatePath("/")
     return { error: null }
