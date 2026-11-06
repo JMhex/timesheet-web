@@ -4,6 +4,7 @@
 
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+import { headers } from "next/headers"
 
 function readForm(formData: FormData,) {
     return {
@@ -11,6 +12,20 @@ function readForm(formData: FormData,) {
         password: String(formData.get("password") ?? ""),
 }
 }
+
+export async function loginWithMicrosoft(){
+    const supabase = await createClient()
+    const origin = (await headers()).get("origin")
+    const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "azure",
+        options: { scopes: "email", redirectTo: `${origin}/auth/callback`}
+    })
+    if (error) {
+        redirect("/login?error=" + encodeURIComponent(error.message))
+    }
+    redirect(data.url)
+}
+
 
 export async function logout() {
     const supabase = await createClient()

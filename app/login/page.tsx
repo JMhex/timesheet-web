@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 import { login, signup } from "./actions"
+import {loginWithMicrosoft } from "./actions"
 
 async function Messages({
   searchParams,
@@ -37,6 +38,11 @@ export default function LoginPage({
           Password
           <input name="password" type="password" required minLength={8} className="rounded border px-2 py-1" />
         </label>
+        <form action={loginWithMicrosoft}>
+          <button className="w-full rounded border p-2">
+            Sign in with Microsoft
+          </button>
+        </form>
         <div className="flex gap-2">
           <button formAction={login} className="rounded bg-green-600 px-3 py-1 text-white">Sign in</button>
           <button formAction={signup} className="rounded border px-3 py-1">Create account</button>
