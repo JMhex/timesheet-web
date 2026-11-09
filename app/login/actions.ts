@@ -26,7 +26,6 @@ export async function loginWithMicrosoft(){
     redirect(data.url)
 }
 
-
 export async function logout() {
     const supabase = await createClient()
     await supabase.auth.signOut()
@@ -62,7 +61,6 @@ export async function signup(formData: FormData){
     }
     if (data.session) {
         redirect("/")
-
 
     }
     redirect("/login?message=" + encodeURIComponent("If that email can be used, you’ll be able to sign in shortly. Check your inbox to continue"))
