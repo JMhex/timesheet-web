@@ -4,8 +4,6 @@ import {loginWithMicrosoft } from "./actions"
 import CastleBackground from "@/lib/CastleBackground"
 import Wizard from "@/lib/Wizard"
 
-
-
 async function Messages({
   searchParams,
 }: {
