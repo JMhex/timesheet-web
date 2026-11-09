@@ -2,13 +2,12 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { connection } from "next/server"
 import { Suspense } from "react"
+import { getCurrentUser } from "@/lib/auth"
  
 async function TeamContent (){
 await connection()
     const supabase = await createClient()
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getCurrentUser()
     if (!user) {
         redirect("/login")
     }
@@ -18,8 +17,10 @@ await connection()
         redirect("/")
     }
 
-    const { data: people } = await supabase.from("profiles").select("id, email")
-    const { data: entries } = await supabase.from("entries").select("user_id, hours")
+    const [{data: people }, {data: entries}] = await Promise.all ([
+        supabase.from("profiles").select("id, email"),
+        supabase.from("entries").select("user_id, hours"),
+    ])
 
     const totals: Record<string, number> = {}
     for (const entry of entries ?? []) {
@@ -28,7 +29,7 @@ await connection()
 
     return (
         <main className="mx-auto grid max-w-xl gap-4 p-8">
-            <h1 className="text2xl font-bold">Team hours</h1>
+            <h1 className="text-2xl font-bold">Team hours</h1>
             <table className="w-full text-left">
                 <thead>
                     <tr><th>Person</th><th>Hours</th></tr>
