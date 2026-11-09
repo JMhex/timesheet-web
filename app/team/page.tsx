@@ -17,8 +17,10 @@ await connection()
         redirect("/")
     }
 
-    const { data: people } = await supabase.from("profiles").select("id, email")
-    const { data: entries } = await supabase.from("entries").select("user_id, hours")
+    const [{data: people }, {data: entries}] = await Promise.all ([
+        supabase.from("profiles").select("id, email"),
+        supabase.from("entries").select("user_id, hours"),
+    ])
 
     const totals: Record<string, number> = {}
     for (const entry of entries ?? []) {
