@@ -2,13 +2,12 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import { connection } from "next/server"
 import { Suspense } from "react"
+import { getCurrentUser } from "@/lib/auth"
  
 async function TeamContent (){
 await connection()
     const supabase = await createClient()
-    const {
-        data: { user },
-    } = await supabase.auth.getUser()
+    const user = await getCurrentUser()
     if (!user) {
         redirect("/login")
     }
@@ -28,7 +27,7 @@ await connection()
 
     return (
         <main className="mx-auto grid max-w-xl gap-4 p-8">
-            <h1 className="text2xl font-bold">Team hours</h1>
+            <h1 className="text-2xl font-bold">Team hours</h1>
             <table className="w-full text-left">
                 <thead>
                     <tr><th>Person</th><th>Hours</th></tr>
